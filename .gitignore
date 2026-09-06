@@ -1,0 +1,17 @@
+# Виртуальное окружение
+venv/
+.venv/
+env/
+
+# Кэш Python и скомпилированные файлы
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Настройки IDE (PyCharm)
+.idea/
+
+# Системные файлы
+.DS_Store
+Thumbs.db
