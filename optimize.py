@@ -20,7 +20,7 @@ def objective(trial):
 
     env = SimulationEnvironment()
 
-    # 2. Инициализируем контроллер с новыми гиперпараметрами СРАЗУ
+    # 2. Инициализируем контроллер с новыми гиперпараметрами 
     planner = FuzzyPathPlanner(
         close_max=close_max,
         far_min=far_min,
@@ -29,7 +29,7 @@ def objective(trial):
         fast_peak=fast_peak
     )
 
-    # 3. Запуск симуляции ("в фоне")
+    # 3. Запуск симуляции
     max_steps = 1000
     steps = 0
     collisions = 0
@@ -48,7 +48,6 @@ def objective(trial):
 
         steps += 1
 
-    # 4. Фитнес-функция
     distance_to_goal = np.linalg.norm(env.robot_pos - env.target_pos)
     score = (distance_to_goal * 20.0) + (collisions * 100.0) + (steps * 0.1)
 
@@ -61,7 +60,6 @@ if __name__ == "__main__":
     print("Запуск ML-оптимизатора (Сенсоры + Скорость)...")
     study = optuna.create_study(direction='minimize')
 
-    # timeout=120 ограничит поиск двумя минутами, чтобы не ждать вечно
     study.optimize(objective, n_trials=20, timeout=120)
 
     print("\n=== Идеальный баланс найден ===")
