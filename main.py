@@ -1,6 +1,6 @@
 import matplotlib
 
-matplotlib.use('TkAgg')  # Принудительно отключаем перехват графиков PyCharm'ом
+matplotlib.use('TkAgg')  
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
 import numpy as np
@@ -13,7 +13,6 @@ from fuzzy_controller import FuzzyPathPlanner
 def main():
     env = SimulationEnvironment()
 
-    # Инициализируем контроллер с параметрами, найденными через Optuna
     planner = FuzzyPathPlanner(
         close_max=1.88,
         far_min=3.76,
@@ -41,11 +40,11 @@ def main():
     trail_line, = ax.plot([], [], 'b-', lw=1.5, alpha=0.6, label='Траектория')
     trail_x, trail_y = [], []
 
-    # Инициализация стрелки направления (dummy data)
+    # Инициализация стрелки направления 
     direction_arrow = ax.arrow(0, 0, 0, 0, head_width=0.4, color='cyan', alpha=0.9)
     ax.legend(loc='upper left', fontsize=10)
 
-    step_counter = [0]  # Используем список для изменения внутри функции
+    step_counter = [0]  
 
     def update(frame):
         step_counter[0] += 1
