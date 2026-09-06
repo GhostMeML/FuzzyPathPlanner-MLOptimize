@@ -58,7 +58,6 @@ class FuzzyPathPlanner:
 
     def _setup_rules(self):
         # Разбиваем каждое правило с двумя выводами на два независимых правила.
-        # Это предотвращает баг с кортежами в networkx и делает граф вычислений абсолютно стабильным.
         self.rules = [
             # Правило 1
             ctrl.Rule(self.dist_front['Близко'] & self.target_dir['Слева'], self.turn['Резко влево']),
@@ -133,7 +132,6 @@ class FuzzyPathPlanner:
         return max(min_val, min(max_val, val))
 
     def compute_action(self, d_left, d_front, d_right, t_dir, step_id=0):
-        # Валидация в стиле строгих проверок транзакций
         safe_left = self._validate_input(d_left, 0, config.SENSOR_RANGE, 0.0)
         safe_front = self._validate_input(d_front, 0, config.SENSOR_RANGE, 0.0)
         safe_right = self._validate_input(d_right, 0, config.SENSOR_RANGE, 0.0)
@@ -150,7 +148,7 @@ class FuzzyPathPlanner:
             speed = self.sim.output['speed']
 
             # Структурированное логирование метрик
-            if step_id % 50 == 0:  # Логируем каждый 50-й шаг, чтобы не спамить
+            if step_id % 50 == 0:  
                 log_data = {
                     "event": "fuzzy_compute",
                     "step": step_id,
@@ -161,7 +159,6 @@ class FuzzyPathPlanner:
 
             return turn, speed
         except Exception as e:
-            # Fallback-механизм: если вывод упал, останавливаемся и логируем ошибку (Rollback)
             error_log = {"event": "fuzzy_error", "error": str(e), "fallback_engaged": True}
             logging.error(json.dumps(error_log))
             return 0.0, 0.0
